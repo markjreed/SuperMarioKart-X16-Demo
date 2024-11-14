@@ -1,11 +1,17 @@
-SD  := SD
-BIN := $(SD)/SUPER-MARIO-KART.PRG
-TBL := $(SD)/TBL
-EXTRACTED_FILES  := $(TBL)/MARIO-MAP.BIN $(TBL)/MARIO-TILES.BIN
-GENERATED_FILES := $(TBL)/PERSPECTIVE.BIN
-EXTRACT := utils/extract_tiles_and_tilemap.py
-GENERATE := utils/generate_mode7_tables.py
+sD  := SD
 UNAME := $(shell uname)
+ifeq ($(UNAME),)
+    SEP = \
+else
+    SEP = /
+endif
+BIN := $(SD)$(SEP)SUPER-MARIO-KART.PRG
+
+TBL := $(SD)$(SEP)TBL
+EXTRACTED_FILES  := $(TBL)$(SEP)MARIO-MAP.BIN $(TBL)$(SEP)MARIO-TILES.BIN
+GENERATED_FILES := $(TBL)$(SEP)PERSPECTIVE.BIN
+EXTRACT := utils$(SEP)extract_tiles_and_tilemap.py
+GENERATE := utils$(SEP)generate_mode7_tables.py
 PYTHON := $(shell python -c "import sys; print(sys.executable)")
 ifeq ($(PYTHON),)
     PYTHON := $(shell python3 -c "import sys; print(sys.executable)")
@@ -24,8 +30,8 @@ $(GENERATED_FILES): depends $(GENERATE) $(TBL)
 $(BIN): super_mario_kart.s $(SD) 
 	cl65 -t cx16 -o $@ $<
 
-depends: utils/requirements.txt
-	$(PYTHON) -mpip install -r utils/requirements.txt && echo > depends
+depends: utils$(SEP)requirements.txt
+	$(PYTHON) -mpip install -r utils$(SEP)requirements.txt && echo > depends
 
 $(SD): 
 	mkdir $(SD)
