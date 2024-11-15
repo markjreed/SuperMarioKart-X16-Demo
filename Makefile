@@ -41,7 +41,7 @@ $(TBL): $(SD)
 
 clean: 
 ifeq ($(UNAME),)
-	rd /s SD
+	rd /s /q SD
 	del depends
 else
 	rm -rf SD depends
