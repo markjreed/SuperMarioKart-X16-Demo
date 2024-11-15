@@ -1,7 +1,7 @@
-sD  := SD
+SD  := SD
 UNAME := $(shell uname)
 ifeq ($(UNAME),)
-    SEP = \
+    SEP = \\
 else
     SEP = /
 endif
